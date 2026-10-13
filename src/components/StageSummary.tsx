@@ -2,9 +2,21 @@ import type { Application, Stage } from "../types";
 import { countByStage } from "../lib/applications";
 import { StageBadge } from "./StageBadge";
 
-const STAGES: Stage[] = ["wishlist", "applied", "interview", "offer", "rejected", "closed"];
+const STAGES: Stage[] = [
+  "wishlist",
+  "applied",
+  "interview",
+  "offer",
+  "rejected",
+  "closed",
+];
 
-export function StageSummary({ applications }: { applications: Application[] }) {
+type StageSummaryProps = {
+  applications: Application[];
+};
+
+export function StageSummary({ applications }: StageSummaryProps) {
+  // this returns an Record<Stage, number> that contains the count of applications for each stage
   const counts = countByStage(applications);
   return (
     <div className="flex flex-wrap gap-3">

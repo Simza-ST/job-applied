@@ -8,6 +8,11 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 export default function App() {
   return (
     <ThemeProvider>
+       <div className="flex h-screen items-center justify-center bg-slate-900">
+      <h1 className="text-3xl font-bold text-amber-500 animate-pulse">
+        Tailwind is working!
+      </h1>
+    </div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<ApplicationsPage />} />
