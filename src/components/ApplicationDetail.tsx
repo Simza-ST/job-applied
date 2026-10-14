@@ -1,5 +1,6 @@
 import type { Application } from "../types";
 import { StageBadge } from "./StageBadge";
+import { needsNudge } from "../lib/applications";
 
 export function ApplicationDetail({ app }: { app: Application }) {
   return (
@@ -23,7 +24,12 @@ export function ApplicationDetail({ app }: { app: Application }) {
         )}
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-gray-400">Date Applied</p>
-          <p className="mt-1 text-sm">{app.dateApplied}</p>
+          <div className="mt-1 flex items-center gap-2">
+            <p className="text-sm">{app.dateApplied}</p>
+            {needsNudge(app) && (
+              <span className="text-xs font-medium text-amber-600 dark:text-amber-400">⚠ No update in 14+ days</span>
+            )}
+          </div>
         </div>
         {app.notes && (
           <div>
