@@ -2,27 +2,28 @@ import { Link } from "react-router-dom";
 import type { Application } from "../types";
 import { ApplicationCard } from "./ApplicationCard";
 
-// Declares a type for the props that the ApplicationList component will receive.
-// It expects an object with a single property applications of type Application[].
-type ApplicationListProps = {
-  applications: Application[];
-};
+type ApplicationListProps = { applications: Application[] };
 
-// The ApplicationList component receives an applications prop of type Application[]
-// and renders a list of ApplicationCard components for each application in the array.
-// If there are no applications, it displays a message indicating that no applications
-// were found and you can add new ones.
 export function ApplicationList({ applications }: ApplicationListProps) {
-  if (applications.length === 0){
-    return <p className="text-sm text-gray-500">
-      No applications found. Please add some applications 
-      <Link to="/applications/new">here</Link>.</p>;
+  if (applications.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 py-16 text-center dark:border-gray-800">
+        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+          No applications found.
+        </p>
+        <Link
+          to="/new"
+          className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
+        >
+          Add your first one →
+        </Link>
+      </div>
+    );
   }
 
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {applications.map((app) => (
-        // the key: It gives each card a permanent, unique identifier (the application's unique id).
         <ApplicationCard key={app.id} app={app} />
       ))}
     </div>

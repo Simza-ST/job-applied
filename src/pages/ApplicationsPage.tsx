@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { FilterBar } from "../components/FilterBar";
 import { ApplicationList } from "../components/ApplicationList";
 import { StageSummary } from "../components/StageSummary";
-import { ThemeToggle } from "../components/ThemeToggle";
 import { useApplications } from "../hooks/useApplications";
 import type { Stage } from "../types";
 
@@ -20,21 +18,23 @@ export function ApplicationsPage() {
   });
 
   return (
-    <div className="mx-auto max-w-4xl p-4 space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Job Applications</h1>
-        <div className="flex gap-2">
-          <ThemeToggle />
-          <Link to="/new" className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700">
-            + New
-          </Link>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Applications</h1>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Track and manage your job applications.</p>
       </div>
-      {loading && <p>Loading…</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
+          {error}
+        </div>
+      )}
       {!loading && <StageSummary applications={applications} />}
       <FilterBar search={search} stage={stage} onSearch={setSearch} onStage={setStage} />
-      <ApplicationList applications={filtered} />
+      {loading ? (
+        <div className="flex items-center justify-center py-16 text-sm text-gray-400">Loading…</div>
+      ) : (
+        <ApplicationList applications={filtered} />
+      )}
     </div>
   );
 }
