@@ -1,10 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { ThemeToggle } from "../ThemeToggle";
 import { useApplications } from "../../hooks/useApplications";
+import { useAuth } from "../../context/AuthContext";
 
 export function Navbar() {
   const { pathname } = useLocation();
   const { applications } = useApplications();
+  const { user, signOut } = useAuth();
   const isNew = pathname === "/new";
   const isDetail = pathname.startsWith("/applications/");
 
@@ -13,10 +15,7 @@ export function Navbar() {
       <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         {/* Left: logo + breadcrumb */}
         <div className="flex items-center gap-3">
-          <Link
-            to="/"
-            className="flex items-center gap-2 font-bold tracking-tight text-gray-900 dark:text-white"
-          >
+          <Link to="/" className="flex items-center gap-2 font-bold tracking-tight text-gray-900 dark:text-white">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-[11px] font-black text-white shadow-sm">
               JT
             </span>
@@ -42,6 +41,7 @@ export function Navbar() {
         {/* Right: actions */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
+
           {!isNew && (
             <Link
               to="/new"
@@ -52,6 +52,24 @@ export function Navbar() {
               </svg>
               New
             </Link>
+          )}
+
+          {/* User menu */}
+          {user && (
+            <div className="flex items-center gap-2 border-l border-gray-200 pl-2 dark:border-gray-800">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
+                {(user.email ?? "?")[0].toUpperCase()}
+              </div>
+              <button
+                onClick={signOut}
+                title="Sign out"
+                className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            </div>
           )}
         </div>
       </div>

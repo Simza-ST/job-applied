@@ -17,10 +17,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function Field({ id, label, required, children }: { id: string; label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <label className="text-xs font-medium text-gray-600 dark:text-gray-400">
+      <label htmlFor={id} className="text-xs font-medium text-gray-600 dark:text-gray-400">
         {label}{required && <span className="ml-0.5 text-red-500">*</span>}
       </label>
       {children}
@@ -62,29 +62,29 @@ export function NewApplicationPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <Section title="Role">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Job Title" required>
-              <input required name="jobTitle" placeholder="e.g. Frontend Engineer" className={inputCls} />
+            <Field id="jobTitle" label="Job Title" required>
+              <input id="jobTitle" required name="jobTitle" placeholder="e.g. Frontend Engineer" className={inputCls} />
             </Field>
-            <Field label="Company" required>
-              <input required name="company" placeholder="e.g. Acme Corp" className={inputCls} />
+            <Field id="company" label="Company" required>
+              <input id="company" required name="company" placeholder="e.g. Acme Corp" className={inputCls} />
             </Field>
           </div>
           <div className="mt-4">
-            <Field label="Job URL">
-              <input name="link" type="url" placeholder="https://…" className={inputCls} />
+            <Field id="link" label="Job URL">
+              <input id="link" name="link" type="url" placeholder="https://…" className={inputCls} />
             </Field>
           </div>
         </Section>
 
         <Section title="Status">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Stage">
-              <select name="stage" defaultValue="wishlist" className={inputCls}>
+            <Field id="stage" label="Stage">
+              <select id="stage" name="stage" defaultValue="wishlist" className={inputCls}>
                 {STAGES.map((s) => <option key={s} value={s} className="capitalize">{s}</option>)}
               </select>
             </Field>
-            <Field label="Date Applied" required>
-              <input required name="dateApplied" type="date" className={inputCls} />
+            <Field id="dateApplied" label="Date Applied" required>
+              <input id="dateApplied" required name="dateApplied" type="date" className={inputCls} />
             </Field>
           </div>
         </Section>

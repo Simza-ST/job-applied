@@ -54,6 +54,7 @@ export function StageSummary({ applications, activeStage, onStageClick }: Props)
           <button
             key={s}
             onClick={() => onStageClick(isActive ? "all" : s)}
+            aria-pressed={isActive}
             className={`group rounded-xl border px-3 py-3 text-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
               isActive
                 ? `${activeBg} ring-1 ring-inset ring-current/20`

@@ -5,12 +5,14 @@ import {
   updateApplication,
   deleteApplication,
 } from "../api/applicationsAPI";
+import { useToast } from "../context/ToastContext";
 import type { Application } from "../types";
 
 const KEY = ["applications"];
 
 export function useApplications() {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { data: applications = [], isLoading: loading, error } = useQuery({
     queryKey: KEY,
@@ -26,7 +28,11 @@ export function useApplications() {
       queryClient.setQueryData(KEY, [app, ...(prev ?? [])]);
       return { prev };
     },
-    onError: (_err, _app, ctx) => queryClient.setQueryData(KEY, ctx?.prev),
+    onError: (_err, _app, ctx) => {
+      queryClient.setQueryData(KEY, ctx?.prev);
+      toast("Failed to add application. Please try again.", "error");
+    },
+    onSuccess: () => toast("Application added successfully.", "success"),
     onSettled: () => queryClient.invalidateQueries({ queryKey: KEY }),
   });
 
@@ -38,7 +44,11 @@ export function useApplications() {
       queryClient.setQueryData(KEY, (prev ?? []).map((a) => (a.id === app.id ? app : a)));
       return { prev };
     },
-    onError: (_err, _app, ctx) => queryClient.setQueryData(KEY, ctx?.prev),
+    onError: (_err, _app, ctx) => {
+      queryClient.setQueryData(KEY, ctx?.prev);
+      toast("Failed to update application. Please try again.", "error");
+    },
+    onSuccess: () => toast("Application updated successfully.", "success"),
     onSettled: () => queryClient.invalidateQueries({ queryKey: KEY }),
   });
 
@@ -50,7 +60,11 @@ export function useApplications() {
       queryClient.setQueryData(KEY, (prev ?? []).filter((a) => a.id !== id));
       return { prev };
     },
-    onError: (_err, _id, ctx) => queryClient.setQueryData(KEY, ctx?.prev),
+    onError: (_err, _id, ctx) => {
+      queryClient.setQueryData(KEY, ctx?.prev);
+      toast("Failed to delete application. Please try again.", "error");
+    },
+    onSuccess: () => toast("Application deleted.", "info"),
     onSettled: () => queryClient.invalidateQueries({ queryKey: KEY }),
   });
 
